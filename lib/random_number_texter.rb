@@ -28,10 +28,10 @@ class RandomNumberTexter < Sinatra::Base
   end
 
   post '/' do
-    if request.content_type == 'application/json'
-      request.body.rewind
-      post_body = request.body.read
+    request.body.rewind
+    post_body = request.body.read
 
+    if request.content_type == 'application/json'
       payload = JSON.parse post_body
 
       is_random_number_generate = payload['event'] == 'random_number:generate'
@@ -44,12 +44,12 @@ class RandomNumberTexter < Sinatra::Base
 
       send_text(random_number)
       status 201
-      return post_body
 
     else
       status 202
-      return post_body
     end
+
+    post_body
   end
 
 private
@@ -92,3 +92,4 @@ Backtrace:
 
   run! if app_file == $0
 end
+
